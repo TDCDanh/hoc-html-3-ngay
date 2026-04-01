@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Định hướng Nghề nghiệp 2026 - IT Student</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        transition: background-color 0.3s;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(229, 231, 235, 0.5);
+      }
+      .step-active {
+        border-left: 4px solid #3b82f6;
+        background: #eff6ff;
+      }
+      .tab-active {
+        border-bottom: 2px solid #2563eb;
+        color: #2563eb;
+      }
+      .progress-bar {
+        transition: width 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <div class="max-w-5xl mx-auto px-4 py-8">
+      <!-- Header -->
+      <header class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-blue-900 mb-2">
+          Bản Đồ Sự Nghiệp 2026
+        </h1>
+        <p class="text-gray-600">
+          Dành cho sinh viên CNTT - So sánh Lộ trình Công an & Full Stack
+        </p>
+      </header>
+
+      <!-- Selection Tabs -->
+      <div class="flex justify-center mb-10 border-b border-gray-200">
+        <button
+          onclick="switchPath('security')"
+          id="btn-security"
+          class="px-8 py-3 font-semibold transition-all tab-active"
+        >
+          <i class="fas fa-shield-halved mr-2"></i>An Ninh Mạng (Công An)
+        </button>
+        <button
+          onclick="switchPath('fullstack')"
+          id="btn-fullstack"
+          class="px-8 py-3 font-semibold transition-all text-gray-500 hover:text-blue-600"
+        >
+          <i class="fas fa-code mr-2"></i>Lập Trình Viên Full Stack
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Column: Skills & Progress -->
+        <div class="lg:col-span-1 space-y-6">
+          <div class="glass-card p-6 rounded-2xl shadow-sm">
+            <h2 class="text-xl font-bold mb-4 flex items-center">
+              <i class="fas fa-list-check text-blue-600 mr-2"></i>
+              Kỹ năng cần trang bị
+            </h2>
+            <div id="skills-list" class="space-y-4">
+              <!-- Skills injected by JS -->
+            </div>
+          </div>
+
+          <div
+            class="glass-card p-6 rounded-2xl shadow-sm bg-blue-50 border-blue-100"
+          >
+            <h2 class="text-lg font-bold mb-2 text-blue-800">
+              Mức độ sẵn sàng
+            </h2>
+            <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+              <div
+                id="readiness-bar"
+                class="bg-blue-600 h-4 rounded-full progress-bar"
+                style="width: 0%"
+              ></div>
+            </div>
+            <p id="readiness-text" class="text-sm text-blue-700 font-medium">
+              Hoàn thành 0/5 kỹ năng
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Column: Detailed Roadmap -->
+        <div class="lg:col-span-2">
+          <div class="glass-card p-8 rounded-2xl shadow-sm">
+            <h2 class="text-2xl font-bold mb-8" id="path-title text-blue-900">
+              Lộ trình thực hiện
+            </h2>
+
+            <div
+              id="roadmap-steps"
+              class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-300 before:to-transparent"
+            >
+              <!-- Steps injected by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div
+        class="mt-12 text-center p-8 bg-white border border-dashed border-gray-300 rounded-2xl"
+      >
+        <h3 class="text-xl font-semibold mb-3">Bạn vẫn đang phân vân?</h3>
+        <p class="text-gray-600 mb-6 italic">
+          "Lựa chọn quan trọng hơn nỗ lực. Hãy thử xây dựng một sản phẩm (Full
+          Stack) và học cách bảo mật nó (Security). Sự giao thoa này sẽ biến bạn
+          thành một kỹ sư hiếm có vào năm 2026."
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <span
+            class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium"
+            >Tip: Học IELTS song song</span
+          >
+          <span
+            class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium"
+            >Tip: Giữ GPA > 3.2</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const paths = {
+        security: {
+          title: "An Ninh Mạng (Ngành Công An - A05)",
+          skills: [
+            "Quản trị Mạng (CCNA/MTCNA)",
+            "Luật An Ninh Mạng & Chính trị",
+            "Điều tra số (Digital Forensics)",
+            "Mật mã học & Bảo mật hệ thống",
+            "Kỹ năng dịch ngược (Reverse Engineering)",
+          ],
+          steps: [
+            {
+              year: "Năm 1-2",
+              task: "Xây dựng nền tảng mạng & OS (Linux/Windows Server). Tham gia các kỳ thi CTF.",
+              icon: "fa-seedling",
+            },
+            {
+              year: "Năm 3",
+              task: "Học sâu về Penetration Testing và Forensics. Giữ lý lịch cá nhân/gia đình trong sạch.",
+              icon: "fa-shield-halved",
+            },
+            {
+              year: "Năm 4",
+              task: "Ôn tập kiến thức nghiệp vụ. Đăng ký dự tuyển Văn bằng 2 hoặc các kỳ tuyển dụng công dân.",
+              icon: "fa-building-shield",
+            },
+            {
+              year: "2026",
+              task: "Chính thức gia nhập lực lượng. Tiếp tục học tập tại các học viện của ngành.",
+              icon: "fa-star",
+            },
+          ],
+        },
+        fullstack: {
+          title: "Lập trình viên Full Stack (Modern Stack 2026)",
+          skills: [
+            "React/Next.js & TypeScript",
+            "Node.js/Go Microservices",
+            "AI-Assisted Coding (Copilot/Cursor)",
+            "Cloud Services (AWS/Vercel)",
+            "Docker & CI/CD Pipelines",
+          ],
+          steps: [
+            {
+              year: "Năm 1-2",
+              task: "Nắm vững Cấu trúc dữ liệu & Giải thuật. Xây dựng các dự án Web đơn giản.",
+              icon: "fa-code",
+            },
+            {
+              year: "Năm 3",
+              task: "Học Microservices & System Design. Thực tập tại các công ty Tech lớn.",
+              icon: "fa-laptop-code",
+            },
+            {
+              year: "Năm 4",
+              task: "Tích hợp AI vào quy trình code. Xây dựng Portfolio ấn tượng trên GitHub.",
+              icon: "fa-rocket",
+            },
+            {
+              year: "2026",
+              task: "Làm việc tại các tập đoàn đa quốc gia hoặc Startup. Lương khởi điểm cao.",
+              icon: "fa-briefcase",
+            },
+          ],
+        },
+      };
+
+      let currentPath = "security";
+      let checkedSkills = new Set();
+
+      function switchPath(pathKey) {
+        currentPath = pathKey;
+        checkedSkills.clear();
+
+        // Update UI Tabs
+        document.getElementById("btn-security").className =
+          pathKey === "security"
+            ? "px-8 py-3 font-semibold transition-all tab-active"
+            : "px-8 py-3 font-semibold transition-all text-gray-500 hover:text-blue-600";
+        document.getElementById("btn-fullstack").className =
+          pathKey === "fullstack"
+            ? "px-8 py-3 font-semibold transition-all tab-active"
+            : "px-8 py-3 font-semibold transition-all text-gray-500 hover:text-blue-600";
+
+        renderContent();
+        updateProgress();
+      }
+
+      function renderContent() {
+        const pathData = paths[currentPath];
+
+        // Render Skills
+        const skillsContainer = document.getElementById("skills-list");
+        skillsContainer.innerHTML = pathData.skills
+          .map(
+            (skill, index) => `
+                <label class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors border border-transparent hover:border-gray-200">
+                    <input type="checkbox" onchange="toggleSkill('${skill}')" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                    <span class="text-gray-700">${skill}</span>
+                </label>
+            `,
+          )
+          .join("");
+
+        // Render Roadmap
+        const roadmapContainer = document.getElementById("roadmap-steps");
+        roadmapContainer.innerHTML = pathData.steps
+          .map(
+            (step) => `
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-1 w-10 h-10 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center z-10 shadow-sm">
+                        <i class="fas ${step.icon} text-blue-600 text-sm"></i>
+                    </div>
+                    <div>
+                        <span class="inline-block px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded mb-1">${step.year}</span>
+                        <h3 class="text-lg font-bold text-gray-800">${step.task.split(".")[0]}</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">${step.task}</p>
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+      }
+
+      function toggleSkill(skill) {
+        if (checkedSkills.has(skill)) checkedSkills.delete(skill);
+        else checkedSkills.add(skill);
+        updateProgress();
+      }
+
+      function updateProgress() {
+        const total = paths[currentPath].skills.length;
+        const count = checkedSkills.size;
+        const percentage = (count / total) * 100;
+
+        document.getElementById("readiness-bar").style.width = percentage + "%";
+        document.getElementById("readiness-text").innerText =
+          `Hoàn thành ${count}/${total} kỹ năng chủ chốt`;
+      }
+
+      // Initialize
+      window.onload = renderContent;
+    </script>
+  </body>
+</html>
