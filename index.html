@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kế Hoạch Học Tập Trọng Điểm - Liquid Glass</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Thêm thư viện marked để render markdown cho câu trả lời AI -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       tailwind.config = {
@@ -144,7 +143,6 @@
         animation: fadeIn 0.3s ease-out forwards;
       }
 
-      /* Định dạng nội dung Markdown bên trong tin nhắn AI */
       .markdown-content p {
         margin-bottom: 0.75rem;
       }
@@ -198,6 +196,50 @@
         </div>
       </header>
 
+      <!-- API Key Setup (Chỉ hiện khi chưa có key) -->
+      <section id="api-setup" class="mb-8 max-w-xl mx-auto hidden">
+        <div
+          class="glass-panel p-6 rounded-2xl border-emerald-500/30 bg-emerald-500/5"
+        >
+          <h3
+            class="text-emerald-400 font-bold mb-2 flex items-center gap-2 text-sm"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+              ></path>
+            </svg>
+            Cấu hình API Key Gemini
+          </h3>
+          <p class="text-slate-400 text-xs mb-4">
+            Để AI hoạt động trên GitHub Pages, hãy nhập API Key của bạn (Key sẽ
+            được lưu tại trình duyệt này).
+          </p>
+          <div class="flex gap-2">
+            <input
+              type="password"
+              id="api-key-input"
+              placeholder="Dán Gemini API Key tại đây..."
+              class="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-2 text-sm text-white focus:border-emerald-500 outline-none"
+            />
+            <button
+              onclick="saveApiKey()"
+              class="bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-emerald-600 transition-colors"
+            >
+              Lưu
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section class="mb-12">
         <div class="glass-panel rounded-3xl p-8 border-white/10">
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
@@ -243,9 +285,7 @@
       <div
         id="schedule-container"
         class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
-      >
-        <!-- Render by JS -->
-      </div>
+      ></div>
     </div>
 
     <!-- AI Chat Widget -->
@@ -273,7 +313,6 @@
         id="chat-box"
         class="absolute bottom-20 right-0 w-[90vw] md:w-[450px] h-[550px] glass-panel rounded-3xl p-4 flex flex-col opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-bottom-right shadow-2xl border-white/20 overflow-hidden"
       >
-        <!-- Header -->
         <div
           class="flex items-center justify-between border-b border-white/10 pb-3 mb-3"
         >
@@ -298,23 +337,18 @@
           </button>
         </div>
 
-        <!-- Messages Container -->
         <div
           id="chat-content"
-          class="flex-1 overflow-y-auto space-y-4 pr-2 mb-4 scroll-smooth"
+          class="flex-1 overflow-y-auto space-y-4 pr-2 mb-4 scroll-smooth text-slate-200"
         >
           <div
-            class="bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 text-sm leading-relaxed message-anim text-slate-200"
+            class="bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 text-sm leading-relaxed message-anim"
           >
-            Chào bạn! Tôi là Mentor AI của bạn.
-            <br /><br />
-            Tôi đã cập nhật lộ trình đến hết 09/05. Bạn có thắc mắc nào về **Big
-            O**, **Đạo hàm** hay **OOP** không? Cứ hỏi, tôi sẽ giải đáp chi
-            tiết!
+            Chào bạn! Tôi là Mentor AI của bạn. Đừng quên thiết lập API Key ở
+            phía trên để tôi có thể hoạt động nhé!
           </div>
         </div>
 
-        <!-- Input Area -->
         <div
           class="relative flex gap-2 bg-black/20 p-2 rounded-2xl border border-white/10"
         >
@@ -349,10 +383,20 @@
     </div>
 
     <script>
-      const apiKey = "";
+      // QUAN TRỌNG: Key sẽ được lấy từ localStorage để bảo mật khi push code lên GitHub
+      let CURRENT_API_KEY = localStorage.getItem("GEMINI_API_KEY") || "";
+
+      function saveApiKey() {
+        const val = document.getElementById("api-key-input").value.trim();
+        if (val) {
+          localStorage.setItem("GEMINI_API_KEY", val);
+          CURRENT_API_KEY = val;
+          document.getElementById("api-setup").classList.add("hidden");
+          alert("Đã lưu API Key! Bạn có thể bắt đầu chat.");
+        }
+      }
 
       const studyData = [
-        // Tuần 1: 19/04 - 25/04
         {
           date: "19/04",
           day: "CN",
@@ -472,8 +516,6 @@
             desc: "Nghỉ ngơi hoặc học bù nội dung thiếu.",
           },
         },
-
-        // Tuần 2: 26/04 - 02/05
         {
           date: "26/04",
           day: "CN",
@@ -593,8 +635,6 @@
             desc: "Xem lại toàn bộ CTDL danh sách.",
           },
         },
-
-        // Tuần 3: 03/05 - 09/05
         {
           date: "03/05",
           day: "CN",
@@ -724,12 +764,17 @@
       }
 
       async function sendMessage() {
+        if (!CURRENT_API_KEY) {
+          alert("Vui lòng nhập API Key ở phía trên để trò chuyện với AI.");
+          document.getElementById("api-setup").classList.remove("hidden");
+          return;
+        }
+
         const input = document.getElementById("chat-input");
         const container = document.getElementById("chat-content");
         const text = input.value.trim();
         if (!text) return;
 
-        // User Message
         const userMsg = document.createElement("div");
         userMsg.className =
           "bg-emerald-500/20 p-3 rounded-2xl rounded-tr-none border border-emerald-500/20 text-sm ml-8 text-right message-anim text-white";
@@ -738,7 +783,6 @@
         input.value = "";
         container.scrollTop = container.scrollHeight;
 
-        // Loading Indicator
         const loading = document.createElement("div");
         loading.className =
           "bg-white/5 p-3 rounded-2xl rounded-tl-none border border-white/5 text-sm italic text-slate-400 w-32 flex justify-center message-anim";
@@ -750,7 +794,7 @@
 
         try {
           const response = await fetchWithRetry(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${CURRENT_API_KEY}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -768,6 +812,11 @@
           );
 
           const data = await response.json();
+
+          if (data.error) {
+            throw new Error(data.error.message || "Lỗi API");
+          }
+
           const replyText =
             data.candidates?.[0]?.content?.parts?.[0]?.text ||
             "Xin lỗi, tôi gặp chút trục trặc khi suy nghĩ.";
@@ -776,10 +825,7 @@
           const aiMsg = document.createElement("div");
           aiMsg.className =
             "bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 text-sm leading-relaxed message-anim text-slate-200 markdown-content shadow-inner";
-
-          // Sử dụng marked.js để render Markdown
           aiMsg.innerHTML = marked.parse(replyText);
-
           container.appendChild(aiMsg);
         } catch (error) {
           if (document.getElementById("ai-loading"))
@@ -787,8 +833,7 @@
           const errorMsg = document.createElement("div");
           errorMsg.className =
             "bg-red-500/10 p-3 rounded-2xl text-xs text-red-400 border border-red-500/20 message-anim";
-          errorMsg.textContent =
-            "Không thể kết nối với AI. Vui lòng kiểm tra lại sau.";
+          errorMsg.textContent = `Lỗi: ${error.message}. Kiểm tra API Key của bạn.`;
           container.appendChild(errorMsg);
         }
         container.scrollTop = container.scrollHeight;
@@ -799,10 +844,15 @@
           try {
             const response = await fetch(url, options);
             if (response.ok) return response;
-          } catch (e) {}
+            const errData = await response.json();
+            if (response.status === 400 || response.status === 403)
+              throw new Error(errData.error?.message || "Lỗi API Key");
+          } catch (e) {
+            if (e.message.includes("API Key")) throw e;
+          }
           await new Promise((res) => setTimeout(res, Math.pow(2, i) * 1000));
         }
-        throw new Error("Max retries reached");
+        throw new Error("Không thể kết nối sau nhiều lần thử");
       }
 
       function handleTick(id) {
@@ -813,6 +863,10 @@
       }
 
       function render() {
+        if (!CURRENT_API_KEY) {
+          document.getElementById("api-setup").classList.remove("hidden");
+        }
+
         const container = document.getElementById("schedule-container");
         studyData.forEach((day) => {
           const mChecked = localStorage.getItem(`task_${day.m.id}`) === "true";
@@ -823,13 +877,9 @@
             "glass-card rounded-3xl p-6 flex flex-col gap-4 border-white/5 relative overflow-hidden group/card";
           card.innerHTML = `
                     <div class="flex justify-between items-start relative z-10">
-                        <div>
-                            <span class="text-2xl font-black text-white">${day.date}</span>
-                            <span class="text-xs text-slate-500 ml-2 font-bold">${day.day}</span>
-                        </div>
+                        <div><span class="text-2xl font-black text-white">${day.date}</span><span class="text-xs text-slate-500 ml-2 font-bold">${day.day}</span></div>
                         <span class="subject-tag tag-focus">${day.focus}</span>
                     </div>
-                    
                     <div id="container-${day.m.id}" class="group ${mChecked ? "task-completed" : ""} bg-white/5 p-4 rounded-2xl border border-white/5 transition-all hover:bg-white/10 relative z-10">
                         <div class="flex justify-between items-start mb-2">
                             <span class="subject-tag ${day.m.sub === "DSA" ? "tag-dsa" : day.m.sub === "VTP" ? "tag-vtp" : "tag-oop"}">${day.m.sub}</span>
@@ -840,7 +890,6 @@
                             <p class="text-[11px] text-slate-400 leading-tight">${day.m.desc}</p>
                         </div>
                     </div>
-
                     <div id="container-${day.a.id}" class="group ${aChecked ? "task-completed" : ""} bg-white/5 p-4 rounded-2xl border border-white/5 transition-all hover:bg-white/10 relative z-10">
                         <div class="flex justify-between items-start mb-2">
                             <span class="subject-tag ${day.a.sub === "DSA" ? "tag-dsa" : day.a.sub === "VTP" ? "tag-vtp" : "tag-oop"}">${day.a.sub}</span>
@@ -851,8 +900,6 @@
                             <p class="text-[11px] text-slate-400 leading-tight">${day.a.desc}</p>
                         </div>
                     </div>
-
-                    <!-- Decorative background element -->
                     <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-white/5 rounded-full blur-2xl group-hover/card:bg-white/10 transition-colors"></div>
                 `;
           container.appendChild(card);
