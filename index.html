@@ -18,13 +18,23 @@
             animation: {
               glow: "glow 4s ease-in-out infinite",
               float: "float 5s ease-in-out infinite",
-              "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "gradient-x": "gradient-x 3s ease infinite",
             },
             keyframes: {
               glow: { "0%, 100%": { opacity: "0.5" }, "50%": { opacity: "1" } },
               float: {
                 "0%, 100%": { transform: "translateY(0)" },
                 "50%": { transform: "translateY(-12px)" },
+              },
+              "gradient-x": {
+                "0%, 100%": {
+                  "background-size": "200% 200%",
+                  "background-position": "left center",
+                },
+                "50%": {
+                  "background-size": "200% 200%",
+                  "background-position": "right center",
+                },
               },
             },
           },
@@ -72,9 +82,7 @@
         backdrop-filter: blur(40px) saturate(220%);
         -webkit-backdrop-filter: blur(40px) saturate(220%);
         border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow:
-          0 30px 60px -12px rgba(0, 0, 0, 0.5),
-          inset 0 1px 2px rgba(255, 255, 255, 0.05);
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
       }
 
       .liquid-card {
@@ -82,22 +90,17 @@
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.05);
         transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        position: relative;
+        cursor: pointer;
       }
 
       .liquid-card:hover {
-        transform: translateY(-10px) scale(1.02);
-        border-color: rgba(59, 130, 246, 0.5);
-        background: rgba(255, 255, 255, 0.05);
-        box-shadow:
-          0 35px 60px -15px rgba(0, 0, 0, 0.8),
-          0 0 35px rgba(59, 130, 246, 0.25),
-          inset 0 0 15px rgba(255, 255, 255, 0.05);
+        transform: translateY(-8px);
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.04);
       }
 
       .note-widget {
         transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        transform-origin: right top;
         width: 100%;
       }
 
@@ -111,21 +114,19 @@
           min-height: 60px;
           padding: 0;
           border-radius: 20px;
-          background: linear-gradient(135deg, #3b82f6, #2563eb);
-          border-color: transparent;
+          background: #3b82f6;
           overflow: hidden;
         }
       }
 
       .note-widget.collapsed .note-content {
         opacity: 0;
-        visibility: hidden;
         pointer-events: none;
       }
       .note-widget.collapsed .collapse-btn {
         transform: rotate(180deg);
-        top: 16px;
-        right: 16px;
+        top: 18px;
+        right: 18px;
         color: white;
       }
       .note-widget.collapsed .collapse-icon-only {
@@ -142,164 +143,129 @@
       }
 
       .note-area {
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(0, 0, 0, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 24px;
-        padding: 20px;
+        border-radius: 20px;
+        padding: 15px;
         color: #f1f5f9;
         width: 100%;
-        height: 300px;
+        height: 280px;
         resize: none;
         outline: none;
-        transition: all 0.3s;
-      }
-      .note-area:focus {
-        border-color: rgba(59, 130, 246, 0.5);
-        background: rgba(255, 255, 255, 0.04);
+        font-size: 13px;
       }
 
-      .progress-ring__circle {
-        transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
-        transform: rotate(-90deg);
-        transform-origin: 50% 50%;
-      }
-
-      .gemini-portal {
+      .gemini-btn {
         position: fixed;
         bottom: 2rem;
         right: 2rem;
         z-index: 1000;
-        background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-        padding: 14px 28px;
-        border-radius: 24px;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 12px 24px;
+        border-radius: 20px;
         display: flex;
         align-items: center;
         gap: 12px;
-        box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         text-decoration: none;
       }
-      .gemini-portal:hover {
-        transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 30px 60px -12px rgba(37, 99, 235, 0.6);
+      .gemini-btn:hover {
+        transform: translateY(-5px);
+        border-color: rgba(66, 133, 244, 0.5);
+        box-shadow: 0 20px 40px rgba(66, 133, 244, 0.2);
+      }
+
+      .gemini-star {
+        fill: url(#gemini-grad);
+        filter: drop-shadow(0 0 5px rgba(66, 133, 244, 0.6));
       }
 
       .task-checkbox {
         appearance: none;
-        width: 22px;
-        height: 22px;
-        border-radius: 8px;
+        width: 20px;
+        height: 20px;
+        border-radius: 6px;
         border: 1.5px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.02);
         cursor: pointer;
-        transition: 0.3s;
         position: relative;
       }
-
-      .task-checkbox-dsa:checked {
-        background: #10b981;
-        border-color: transparent;
-        box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-      }
-      .task-checkbox-oop:checked {
+      .task-checkbox:checked {
         background: #3b82f6;
         border-color: transparent;
-        box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
       }
-      .task-checkbox-vtp:checked {
-        background: #8b5cf6;
-        border-color: transparent;
-        box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
-      }
-      .task-checkbox-review:checked {
-        background: #64748b;
-        border-color: transparent;
-        box-shadow: 0 0 12px rgba(100, 116, 139, 0.4);
-      }
-
       .task-checkbox:checked::after {
         content: "✓";
         position: absolute;
         color: white;
         font-size: 12px;
-        font-weight: 800;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
       }
 
       .task-completed {
-        opacity: 0.4 !important;
-        filter: grayscale(0.5);
+        opacity: 0.4;
       }
 
-      #modal-overlay {
+      input[type="file"] {
         display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(2, 6, 23, 0.85);
-        backdrop-filter: blur(30px);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
       }
 
-      #modal-overlay.active {
-        display: flex;
-        animation: fadeIn 0.4s ease;
+      .progress-gradient {
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+        background-size: 200% auto;
+        animation: gradient-x 3s linear infinite;
       }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+      svg circle {
+        transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
       }
     </style>
   </head>
   <body class="min-h-screen py-16 px-6">
-    <a
-      href="https://gemini.google.com"
-      target="_blank"
-      class="gemini-portal group"
-    >
-      <div class="relative">
-        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2L12L9.5 9.5L12 2Z"
-            fill="white"
-            class="animate-pulse"
-          />
-        </svg>
-        <div
-          class="absolute inset-0 bg-white blur-lg opacity-40 group-hover:opacity-100 transition-opacity"
-        ></div>
-      </div>
-      <span class="text-white font-black text-xs uppercase tracking-widest"
-        >Mở Gemini Portal</span
+    <a href="https://gemini.google.com" target="_blank" class="gemini-btn">
+      <svg
+        class="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="gemini-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color: #4285f4; stop-opacity: 1" />
+            <stop offset="100%" style="stop-color: #9b51e0; stop-opacity: 1" />
+          </linearGradient>
+        </defs>
+        <path
+          class="gemini-star"
+          d="M12 0L14.6 8.4L23 11L14.6 13.6L12 22L9.4 13.6L1 11L9.4 8.4L12 0Z"
+        />
+        <path
+          d="M18 4L18.8 6.2L21 7L18.8 7.8L18 10L17.2 7.8L15 7L17.2 6.2L18 4Z"
+          fill="#4285f4"
+          opacity="0.6"
+        />
+      </svg>
+      <span class="text-white font-bold text-xs uppercase tracking-[0.2em]"
+        >Open Gemini</span
       >
     </a>
 
     <div
       id="modal-overlay"
       onclick="closeModal()"
-      class="fixed inset-0 bg-black/60 backdrop-blur-2xl z-[2000] hidden items-center justify-center p-6"
+      class="fixed inset-0 bg-black/80 backdrop-blur-2xl z-[2000] hidden items-center justify-center p-6"
     >
       <div
         class="modal-content w-full max-w-2xl glass-panel rounded-[3.5rem] p-12 overflow-hidden"
         onclick="event.stopPropagation()"
       >
-        <div
-          id="modal-body"
-          class="max-h-[70vh] overflow-y-auto custom-scroll pr-2"
-        ></div>
+        <div id="modal-body" class="max-h-[70vh] overflow-y-auto pr-4"></div>
         <button
           onclick="closeModal()"
-          class="mt-8 w-full py-4 rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all border border-white/10 uppercase tracking-widest text-[10px]"
+          class="mt-8 w-full py-5 rounded-3xl bg-white/5 text-slate-400 font-black hover:bg-white/10 transition-all uppercase tracking-[0.2em] text-[10px]"
         >
           Đóng cửa sổ
         </button>
@@ -307,38 +273,29 @@
     </div>
 
     <div class="max-w-7xl mx-auto">
-      <div class="flex flex-col lg:flex-row gap-12 mb-20">
-        <div class="flex-grow space-y-10">
-          <header>
-            <h1
-              class="text-7xl md:text-8xl font-black text-white tracking-tighter mb-4"
-            >
-              TDCDanh's<span
-                class="font-light italic text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400"
-                >Path</span
-              >
+      <div class="flex flex-col lg:flex-row gap-12 mb-16">
+        <div class="flex-grow">
+          <header class="mb-12">
+            <h1 class="text-7xl font-black text-white tracking-tighter mb-2">
+              TDCDanh's<span class="font-light italic text-blue-400">Path</span>
             </h1>
-            <p class="text-slate-400 text-xl font-medium max-w-xl italic">
-              "Lùi 1 bước để tiến 3 bước"
-            </p>
+            <p class="text-slate-500 text-lg">Lùi 1 bước để tiến 3 bước</p>
           </header>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <!-- DSA Card -->
-            <div
-              class="glass-panel p-6 rounded-[2.5rem] group liquid-card transition-all"
-            >
-              <div class="flex justify-between items-center mb-6">
+            <div class="glass-panel p-8 rounded-[3rem] liquid-card group">
+              <div class="flex justify-between items-center mb-8">
                 <span
-                  class="text-[10px] font-black text-emerald-500 uppercase tracking-widest"
+                  class="text-[14px] font-black text-emerald-500 uppercase tracking-widest"
                   >DSA</span
                 >
                 <button
                   onclick="openToc('dsa')"
-                  class="p-2 rounded-xl bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all"
+                  class="p-2.5 rounded-2xl bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all"
                 >
                   <svg
-                    class="w-4 h-4"
+                    class="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -347,77 +304,29 @@
                   </svg>
                 </button>
               </div>
-              <div
-                class="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-center justify-between relative z-10"
-              >
-                <span
-                  id="label-dsa"
-                  class="text-[11px] text-slate-500 truncate max-w-[100px]"
-                  >Chưa nạp</span
+              <div class="flex flex-col gap-3">
+                <label
+                  class="w-full py-4 rounded-2xl bg-emerald-500/10 text-[10px] font-black text-emerald-400 hover:bg-emerald-500/20 flex items-center justify-center gap-3 cursor-pointer transition-all"
                 >
-                <input
-                  type="file"
-                  id="file-dsa"
-                  class="hidden"
-                  onchange="handleFile(this, 'dsa')"
-                  accept=".pdf"
-                />
-                <div class="flex gap-2">
-                  <button
-                    id="view-dsa"
-                    onclick="viewFile('dsa')"
-                    class="hidden text-emerald-500 hover:text-emerald-400"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-width="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                      <path
-                        stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    onclick="document.getElementById('file-dsa').click()"
-                    class="text-slate-500 hover:text-white"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-width="2"
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                  <span id="file-label-dsa">TẢI LÊN FILE</span>
+                  <input type="file" onchange="handleFileUpload(this, 'dsa')" />
+                </label>
               </div>
             </div>
+
             <!-- OOP Card -->
-            <div
-              class="glass-panel p-6 rounded-[2.5rem] group liquid-card transition-all"
-            >
-              <div class="flex justify-between items-center mb-6">
+            <div class="glass-panel p-8 rounded-[3rem] liquid-card group">
+              <div class="flex justify-between items-center mb-8">
                 <span
-                  class="text-[10px] font-black text-blue-500 uppercase tracking-widest"
+                  class="text-[14px] font-black text-blue-500 uppercase tracking-widest"
                   >OOP</span
                 >
                 <button
                   onclick="openToc('oop')"
-                  class="p-2 rounded-xl bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white transition-all"
+                  class="p-2.5 rounded-2xl bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white transition-all"
                 >
                   <svg
-                    class="w-4 h-4"
+                    class="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -426,77 +335,29 @@
                   </svg>
                 </button>
               </div>
-              <div
-                class="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-center justify-between relative z-10"
-              >
-                <span
-                  id="label-oop"
-                  class="text-[11px] text-slate-500 truncate max-w-[100px]"
-                  >Chưa nạp</span
+              <div class="flex flex-col gap-3">
+                <label
+                  class="w-full py-4 rounded-2xl bg-blue-500/10 text-[10px] font-black text-blue-400 hover:bg-blue-500/20 flex items-center justify-center gap-3 cursor-pointer transition-all"
                 >
-                <input
-                  type="file"
-                  id="file-oop"
-                  class="hidden"
-                  onchange="handleFile(this, 'oop')"
-                  accept=".pdf"
-                />
-                <div class="flex gap-2">
-                  <button
-                    id="view-oop"
-                    onclick="viewFile('oop')"
-                    class="hidden text-blue-500 hover:text-blue-400"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-width="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                      <path
-                        stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    onclick="document.getElementById('file-oop').click()"
-                    class="text-slate-500 hover:text-white"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-width="2"
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                  <span id="file-label-oop">TẢI LÊN FILE</span>
+                  <input type="file" onchange="handleFileUpload(this, 'oop')" />
+                </label>
               </div>
             </div>
+
             <!-- VTP Card -->
-            <div
-              class="glass-panel p-6 rounded-[2.5rem] group liquid-card transition-all"
-            >
-              <div class="flex justify-between items-center mb-6">
+            <div class="glass-panel p-8 rounded-[3rem] liquid-card group">
+              <div class="flex justify-between items-center mb-8">
                 <span
-                  class="text-[10px] font-black text-vtp uppercase tracking-widest"
+                  class="text-[14px] font-black text-purple-400 uppercase tracking-widest"
                   >VTP</span
                 >
                 <button
                   onclick="openToc('vtp')"
-                  class="p-2 rounded-xl bg-vtp/10 text-vtp hover:bg-vtp hover:text-white transition-all"
+                  class="p-2.5 rounded-2xl bg-purple-500/10 text-purple-400 hover:bg-purple-500 hover:text-white transition-all"
                 >
                   <svg
-                    class="w-4 h-4"
+                    class="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -505,60 +366,13 @@
                   </svg>
                 </button>
               </div>
-              <div
-                class="bg-white/5 p-4 rounded-2xl border border-white/5 flex items-center justify-between relative z-10"
-              >
-                <span
-                  id="label-vtp"
-                  class="text-[11px] text-slate-500 truncate max-w-[100px]"
-                  >Chưa nạp</span
+              <div class="flex flex-col gap-3">
+                <label
+                  class="w-full py-4 rounded-2xl bg-purple-500/10 text-[10px] font-black text-purple-400 hover:bg-purple-500/20 flex items-center justify-center gap-3 cursor-pointer transition-all"
                 >
-                <input
-                  type="file"
-                  id="file-vtp"
-                  class="hidden"
-                  onchange="handleFile(this, 'vtp')"
-                  accept=".pdf"
-                />
-                <div class="flex gap-2">
-                  <button
-                    id="view-vtp"
-                    onclick="viewFile('vtp')"
-                    class="hidden text-vtp hover:text-purple-400"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-width="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                      <path
-                        stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    onclick="document.getElementById('file-vtp').click()"
-                    class="text-slate-500 hover:text-white"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-width="2"
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                  <span id="file-label-vtp">TẢI LÊN FILE</span>
+                  <input type="file" onchange="handleFileUpload(this, 'vtp')" />
+                </label>
               </div>
             </div>
           </div>
@@ -566,47 +380,67 @@
 
         <div
           id="note-widget"
-          class="glass-panel p-8 rounded-[3rem] note-widget relative h-[380px] shadow-2xl"
+          class="glass-panel p-10 rounded-[4rem] note-widget relative h-[420px]"
         >
           <button
             onclick="toggleNote()"
-            class="collapse-btn absolute top-6 right-6 p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 transition-all z-10"
+            class="collapse-btn absolute top-8 right-8 p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-400 transition-all z-10"
           >
             <svg
-              class="w-4 h-4 transition-transform duration-500"
+              class="w-5 h-5 transition-transform duration-500"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path stroke-width="2.5" d="M19 9l-7 7-7-7" />
+              <path stroke-width="3" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
           <div class="collapse-icon-only">
+            <!-- Icon mini khi thu nhỏ -->
             <svg
-              class="w-6 h-6"
-              fill="none"
+              class="w-7 h-7"
               viewBox="0 0 24 24"
+              fill="none"
               stroke="currentColor"
+              stroke-width="2.5"
             >
               <path
-                stroke-width="2.5"
-                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                d="M15.5 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8.5L15.5 3z"
               />
+              <path d="M15 3v5.5H21" />
+              <path d="M8 11h8" stroke-opacity="0.5" />
+              <path d="M8 15h5" stroke-opacity="0.5" />
             </svg>
           </div>
           <div class="note-content h-full flex flex-col">
-            <h3
-              class="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-6 flex items-center gap-3"
-            >
-              <span
-                class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"
-              ></span>
-              Ghi chú hành trình
-            </h3>
+            <div class="flex items-center gap-3 mb-8">
+              <div
+                class="w-8 h-8 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400"
+              >
+                <svg
+                  class="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                >
+                  <path
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707"
+                    stroke-linecap="round"
+                  />
+                  <path d="M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+              </div>
+              <h3
+                class="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]"
+              >
+                Daily Reflection
+              </h3>
+            </div>
             <textarea
               id="quick-notes"
-              class="note-area custom-scroll flex-grow"
-              placeholder="Viết nháp tư duy tại đây..."
+              class="note-area"
+              placeholder="Hôm nay bạn đã học được gì mới?"
               oninput="saveNotes()"
             ></textarea>
           </div>
@@ -614,66 +448,82 @@
       </div>
 
       <div
-        class="glass-panel p-16 rounded-[4.5rem] mb-20 flex flex-col md:flex-row items-center gap-16 shadow-2xl"
+        class="glass-panel p-14 rounded-[5rem] mb-20 flex flex-col md:flex-row items-center gap-16"
       >
-        <div class="relative w-48 h-48">
-          <svg class="w-48 h-48 transform -rotate-1">
+        <div class="relative w-44 h-44">
+          <svg class="w-44 h-44">
+            <defs>
+              <linearGradient
+                id="circleGradient"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="0%"
+              >
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="50%" stop-color="#8b5cf6" />
+                <stop offset="100%" stop-color="#ec4899" />
+              </linearGradient>
+            </defs>
             <circle
               class="text-white/5"
               stroke-width="12"
               stroke="currentColor"
               fill="transparent"
               r="80"
-              cx="96"
-              cy="96"
+              cx="88"
+              cy="88"
             />
             <circle
               id="progress-circle"
-              class="progress-ring__circle text-blue-500"
+              stroke="url(#circleGradient)"
               stroke-width="12"
-              stroke-dasharray="502.6"
-              stroke-dashoffset="502.6"
+              stroke-dasharray="502"
+              stroke-dashoffset="502"
               stroke-linecap="round"
-              stroke="currentColor"
               fill="transparent"
               r="80"
-              cx="96"
-              cy="96"
+              cx="88"
+              cy="88"
+              style="transform: rotate(-90deg); transform-origin: center"
             />
           </svg>
           <div
-            class="absolute inset-0 flex flex-col items-center justify-center text-center"
+            class="absolute inset-0 flex flex-col items-center justify-center"
           >
-            <span id="circle-percent" class="text-5xl font-black text-white"
-              >0%</span
-            >
             <span
-              class="text-[9px] font-black text-slate-600 uppercase tracking-widest mt-1"
-              >Hoàn thành</span
+              id="circle-percent"
+              class="text-5xl font-black text-white tracking-tighter"
+              >0%</span
             >
           </div>
         </div>
-        <div class="flex-grow space-y-6">
-          <div>
-            <h2 class="text-5xl font-black text-white tracking-tighter mb-2">
-              Hành trình Mastery
-            </h2>
-            <div
-              class="h-2.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 mt-6"
-            >
-              <div
-                id="progress-bar"
-                class="h-full bg-gradient-to-r from-blue-600 to-emerald-500 transition-all duration-1000"
-                style="width: 0%"
-              ></div>
+        <div class="flex-grow w-full">
+          <div class="flex justify-between items-end mb-6">
+            <div>
+              <h2
+                class="text-4xl font-black text-white tracking-tighter uppercase"
+              >
+                Kế hoạch 21 ngày
+              </h2>
+              <p class="text-slate-500 text-xs mt-1 uppercase tracking-widest">
+                Progress Monitoring
+              </p>
             </div>
+            <span
+              id="tasks-count"
+              class="text-[11px] font-black text-slate-400 bg-white/5 px-4 py-2 rounded-xl"
+              >0/42</span
+            >
           </div>
-          <div class="flex gap-4">
+          <div
+            class="h-5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 p-1"
+          >
             <div
-              class="px-6 py-2 rounded-2xl bg-white/5 border border-white/5 text-[10px] font-bold text-slate-400 uppercase tracking-widest"
-            >
-              Nhiệm vụ: <span id="tasks-count" class="text-white">0/42</span>
-            </div>
+              id="progress-bar"
+              class="h-full progress-gradient rounded-full transition-all duration-1000 shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+              style="width: 0%"
+            ></div>
           </div>
         </div>
       </div>
@@ -685,6 +535,7 @@
     </div>
 
     <script>
+      // [Dữ liệu giữ nguyên như phiên bản trước]
       const studyData = [
         {
           id: "d1",
@@ -692,282 +543,445 @@
           day: "CN",
           focus: "Khởi động",
           sessions: [
-            { sub: "VTP", title: "Số thực" },
-            { sub: "DSA", title: "Môi trường" },
+            {
+              sub: "VTP",
+              title: "Số thực & Ánh xạ",
+              page: "3-12",
+              desc: "Làm quen với các ký hiệu logic, định nghĩa hàm số và ánh xạ căn bản.",
+            },
+            {
+              sub: "DSA",
+              title: "Môi trường C++",
+              page: "3-7",
+              desc: "Cài đặt VS Code, MinGW và chạy thử thuật toán Hello World.",
+            },
           ],
-          detail: "Số thực, tập hợp và ánh xạ. Cài đặt các công cụ lập trình.",
         },
         {
           id: "d2",
           date: "20/04",
           day: "T2",
-          focus: "Cốt lõi",
+          focus: "Độ phức tạp",
           sessions: [
-            { sub: "DSA", title: "Độ phức tạp O" },
-            { sub: "OOP", title: "Java Core" },
+            {
+              sub: "DSA",
+              title: "Tổng quan CTDL",
+              page: "5-7",
+              desc: "Phân tích Big O, độ phức tạp thời gian và không gian.",
+            },
+            {
+              sub: "OOP",
+              title: "Java Basics",
+              page: "15-47",
+              desc: "Cú pháp Java, JVM, JRE và các kiểu dữ liệu nguyên thủy.",
+            },
           ],
-          detail: "Đánh giá thuật toán và ôn tập Java căn bản.",
         },
         {
           id: "d3",
           date: "21/04",
           day: "T3",
-          focus: "Tìm kiếm",
+          focus: "Kiểu dữ liệu",
           sessions: [
-            { sub: "VTP", title: "Giới hạn" },
-            { sub: "DSA", title: "Searching" },
+            {
+              sub: "DSA",
+              title: "Kiểu dữ liệu (Mảng)",
+              page: "85-91",
+              desc: "Tìm hiểu mảng động, cấu trúc struct và con trỏ trong C++.",
+            },
+            {
+              sub: "VTP",
+              title: "Hàm số thực",
+              page: "3-22",
+              desc: "Các hàm số sơ cấp, tập xác định và đồ thị hàm số.",
+            },
           ],
-          detail: "Kỹ thuật tìm kiếm nhị phân và giới hạn hàm số.",
         },
         {
           id: "d4",
           date: "22/04",
           day: "T4",
-          focus: "Sắp xếp",
+          focus: "Tìm kiếm 1",
           sessions: [
-            { sub: "DSA", title: "Sorting Basic" },
-            { sub: "VTP", title: "Hàm liên tục" },
+            {
+              sub: "DSA",
+              title: "Tìm kiếm nội (TT)",
+              page: "8-13",
+              desc: "Cài đặt Linear Search và Binary Search trên mảng.",
+            },
+            {
+              sub: "DSA",
+              title: "Tìm kiếm nhị phân",
+              page: "10-13",
+              desc: "Áp dụng nhị phân cho các bài toán tối ưu.",
+            },
           ],
-          detail: "Sắp xếp nổi bọt, chèn, chọn. Hàm số liên tục.",
         },
         {
           id: "d5",
           date: "23/04",
           day: "T5",
-          focus: "Lớp học",
+          focus: "Tìm kiếm 2",
           sessions: [
-            { sub: "VTP", title: "Đạo hàm cơ bản" },
-            { sub: "OOP", title: "Java Class" },
+            {
+              sub: "DSA",
+              title: "Tìm kiếm ngoại",
+              page: "14-18",
+              desc: "Cách thao tác với File và tìm kiếm dữ liệu trên bộ nhớ ngoài.",
+            },
+            {
+              sub: "OOP",
+              title: "Class & Object",
+              page: "48-64",
+              desc: "Định nghĩa lớp, thuộc tính, phương thức và hàm khởi tạo (Constructor).",
+            },
           ],
-          detail: "Khái niệm lớp, đối tượng và các quy tắc đạo hàm.",
         },
         {
           id: "d6",
           date: "24/04",
           day: "T6",
-          focus: "Thuật toán",
+          focus: "Sắp xếp 1",
           sessions: [
-            { sub: "DSA", title: "Quick Sort" },
-            { sub: "DSA", title: "Luyện Code" },
+            {
+              sub: "DSA",
+              title: "Interchange Sort",
+              page: "19-24",
+              desc: "Thuật toán đổi chỗ trực tiếp cơ bản.",
+            },
+            {
+              sub: "DSA",
+              title: "Selection Sort",
+              page: "25-29",
+              desc: "Thuật toán sắp xếp chọn trực tiếp.",
+            },
           ],
-          detail: "Sắp xếp nhanh và giải quyết bài toán thực tế.",
         },
         {
           id: "d7",
           date: "25/04",
           day: "T7",
-          focus: "Nâng cao",
+          focus: "Sắp xếp 2",
           sessions: [
-            { sub: "VTP", title: "Hàm hợp" },
-            { sub: "Review", title: "Học bù" },
+            {
+              sub: "DSA",
+              title: "Insertion Sort",
+              page: "30-35",
+              desc: "Thuật toán sắp xếp chèn trực tiếp.",
+            },
+            {
+              sub: "DSA",
+              title: "Merge Sort",
+              page: "40-45",
+              desc: "Thuật toán sắp xếp trộn (Chia để trị).",
+            },
           ],
-          detail: "Đạo hàm hàm hợp và củng cố kiến thức tuần đầu.",
         },
         {
           id: "d8",
           date: "26/04",
           day: "CN",
-          focus: "Ứng dụng",
+          focus: "Sắp xếp 3",
           sessions: [
-            { sub: "VTP", title: "Cực trị" },
-            { sub: "DSA", title: "Mảng động" },
+            {
+              sub: "DSA",
+              title: "Sắp xếp ngoại",
+              page: "60-80",
+              desc: "Kỹ thuật trộn nhiều đường cho file lớn.",
+            },
+            {
+              sub: "VTP",
+              title: "Hàm liên tục",
+              page: "23-44",
+              desc: "Định nghĩa giới hạn và tính liên tục của hàm số.",
+            },
           ],
-          detail: "Ứng dụng đạo hàm tìm cực trị và ArrayList.",
         },
         {
           id: "d9",
           date: "27/04",
           day: "T2",
-          focus: "Cấu trúc",
+          focus: "Danh sách 1",
           sessions: [
-            { sub: "DSA", title: "Linked List 1" },
-            { sub: "OOP", title: "Đóng gói" },
+            {
+              sub: "DSA",
+              title: "Danh sách đặc",
+              page: "84-91",
+              desc: "Quản lý mảng tĩnh và các thao tác thêm/xóa.",
+            },
+            {
+              sub: "OOP",
+              title: "Encapsulation",
+              page: "50-60",
+              desc: "Tính đóng gói: private, public, protected và getter/setter.",
+            },
           ],
-          detail: "Danh sách liên kết đơn và tính đóng gói trong OOP.",
         },
         {
           id: "d10",
           date: "28/04",
           day: "T3",
-          focus: "Giới hạn",
+          focus: "Danh sách 2",
           sessions: [
-            { sub: "VTP", title: "L'Hôpital" },
-            { sub: "DSA", title: "Linked List 2" },
+            {
+              sub: "DSA",
+              title: "Singly Linked List",
+              page: "92-110",
+              desc: "Danh sách liên kết đơn: Node, Head, Tail.",
+            },
+            {
+              sub: "DSA",
+              title: "Doubly Linked List",
+              page: "111-134",
+              desc: "Danh sách liên kết kép và các ứng dụng.",
+            },
           ],
-          detail: "Quy tắc khử vô định và danh sách liên kết đôi.",
         },
         {
           id: "d11",
           date: "29/04",
           day: "T4",
-          focus: "Dữ liệu",
+          focus: "Danh sách 3",
           sessions: [
-            { sub: "DSA", title: "Stack" },
-            { sub: "VTP", title: "Điểm uốn" },
+            {
+              sub: "DSA",
+              title: "Queue (Hàng đợi)",
+              page: "135-142",
+              desc: "FIFO: Enqueue và Dequeue.",
+            },
+            {
+              sub: "DSA",
+              title: "Stack (Ngăn xếp)",
+              page: "143-148",
+              desc: "LIFO: Push và Pop.",
+            },
           ],
-          detail: "Ngăn xếp và ứng dụng biểu thức.",
         },
         {
           id: "d12",
           date: "30/04",
           day: "T5",
-          focus: "Kế thừa",
+          focus: "Cây 1",
           sessions: [
-            { sub: "VTP", title: "Ôn tập đạo hàm" },
-            { sub: "OOP", title: "Kế thừa" },
+            {
+              sub: "DSA",
+              title: "Tổng quan Tree",
+              page: "149-151",
+              desc: "Định nghĩa gốc, lá, cha, con và độ cao của cây.",
+            },
+            {
+              sub: "OOP",
+              title: "Inheritance",
+              page: "103-120",
+              desc: "Tính kế thừa: Từ khóa extends và super.",
+            },
           ],
-          detail: "Quan hệ kế thừa giữa các lớp.",
         },
         {
           id: "d13",
           date: "01/05",
           day: "T6",
-          focus: "Hàng đợi",
+          focus: "Cây 2",
           sessions: [
-            { sub: "DSA", title: "Queue" },
-            { sub: "DSA", title: "Hậu tố" },
+            {
+              sub: "DSA",
+              title: "Binary Tree",
+              page: "152-162",
+              desc: "Cấu trúc cây nhị phân và các quy tắc.",
+            },
+            {
+              sub: "DSA",
+              title: "Tree Traversal",
+              page: "155-160",
+              desc: "Các cách duyệt cây: Pre-order, In-order, Post-order.",
+            },
           ],
-          detail: "Hàng đợi và thuật toán Shunting-yard.",
         },
         {
           id: "d14",
           date: "02/05",
           day: "T7",
-          focus: "Tuần 2",
+          focus: "Cây 3",
           sessions: [
-            { sub: "VTP", title: "Hàm ẩn" },
-            { sub: "Review", title: "Review tuần 2" },
+            {
+              sub: "DSA",
+              title: "Cây BST",
+              page: "163-187",
+              desc: "Cây tìm kiếm nhị phân và thao tác tìm/thêm/xóa.",
+            },
+            {
+              sub: "DSA",
+              title: "Cây AVL",
+              page: "188-220",
+              desc: "Cây tự cân bằng và các phép xoay cây.",
+            },
           ],
-          detail: "Đạo hàm hàm ẩn và tổng kết tuần.",
         },
         {
           id: "d15",
           date: "03/05",
           day: "CN",
-          focus: "Giải tích",
+          focus: "Giải tích 1",
           sessions: [
-            { sub: "VTP", title: "Nguyên hàm" },
-            { sub: "DSA", title: "Cây" },
+            {
+              sub: "VTP",
+              title: "Đạo hàm",
+              page: "45-67",
+              desc: "Quy tắc tính đạo hàm và ý nghĩa hình học.",
+            },
+            {
+              sub: "VTP",
+              title: "Cực trị",
+              page: "68-83",
+              desc: "Tìm giá trị lớn nhất, nhỏ nhất của hàm số.",
+            },
           ],
-          detail: "Bảng nguyên hàm và cấu trúc cây tổng quát.",
         },
         {
           id: "d16",
           date: "04/05",
           day: "T2",
-          focus: "Đa hình",
+          focus: "Giải tích 2",
           sessions: [
-            { sub: "DSA", title: "Duyệt Cây" },
-            { sub: "OOP", title: "Đa hình" },
+            {
+              sub: "VTP",
+              title: "Tích phân",
+              page: "84-110",
+              desc: "Tích phân xác định và không xác định.",
+            },
+            {
+              sub: "OOP",
+              title: "Polymorphism",
+              page: "115-123",
+              desc: "Tính đa hình: Overloading và Overriding.",
+            },
           ],
-          detail: "Overloading, Overriding và các cách duyệt cây.",
         },
         {
           id: "d17",
           date: "05/05",
           day: "T3",
-          focus: "Tích phân",
+          focus: "Giải tích 3",
           sessions: [
-            { sub: "VTP", title: "TP xác định" },
-            { sub: "DSA", title: "BST Search" },
+            {
+              sub: "VTP",
+              title: "TP Từng phần",
+              page: "90-105",
+              desc: "Phương pháp tính tích phân nâng cao.",
+            },
+            {
+              sub: "VTP",
+              title: "TP Suy rộng",
+              page: "106-115",
+              desc: "Tích phân trên khoảng vô hạn.",
+            },
           ],
-          detail: "Cây tìm kiếm nhị phân và tích phân xác định.",
         },
         {
           id: "d18",
           date: "06/05",
           day: "T4",
-          focus: "Kỹ thuật",
+          focus: "Chuỗi",
           sessions: [
-            { sub: "VTP", title: "TP từng phần" },
-            { sub: "DSA", title: "BST Insert" },
+            {
+              sub: "VTP",
+              title: "Chuỗi số",
+              page: "116-130",
+              desc: "Định nghĩa chuỗi và tổng riêng.",
+            },
+            {
+              sub: "VTP",
+              title: "Hội tụ chuỗi",
+              page: "120-140",
+              desc: "Các tiêu chuẩn hội tụ: D’Alembert, Cauchy.",
+            },
           ],
-          detail: "Các phương pháp tính tích phân nâng cao.",
         },
         {
           id: "d19",
           date: "07/05",
           day: "T5",
-          focus: "Chuỗi",
+          focus: "Hệ thống 1",
           sessions: [
-            { sub: "VTP", title: "Chuỗi số" },
-            { sub: "OOP", title: "Interface" },
+            {
+              sub: "DSA",
+              title: "Sơ đồ DSA",
+              page: "224-230",
+              desc: "Tổng kết mối quan hệ giữa các CTDL.",
+            },
+            {
+              sub: "OOP",
+              title: "Interface",
+              page: "80-91",
+              desc: "Giao diện và trừu tượng hóa hoàn toàn.",
+            },
           ],
-          detail: "Tiêu chuẩn hội tụ chuỗi và trừu tượng hóa lớp.",
         },
         {
           id: "d20",
           date: "08/05",
           day: "T6",
-          focus: "Taylor",
+          focus: "Hệ thống 2",
           sessions: [
-            { sub: "DSA", title: "Tổng hợp" },
-            { sub: "VTP", title: "Taylor" },
+            {
+              sub: "DSA",
+              title: "Bài tập tổng hợp",
+              page: "231-240",
+              desc: "Giải các bài toán thực tế bằng DSA.",
+            },
+            {
+              sub: "VTP",
+              title: "Ôn tập VTP",
+              page: "116-140",
+              desc: "Hệ thống hóa toàn bộ công thức Vi tích phân.",
+            },
           ],
-          detail: "Khai triển chuỗi lũy thừa.",
         },
         {
           id: "d21",
           date: "09/05",
           day: "T7",
-          focus: "Kết thúc",
+          focus: "Checklist",
           sessions: [
-            { sub: "Review", title: "Checklist" },
-            { sub: "Review", title: "Nghỉ ngơi" },
+            {
+              sub: "DSA",
+              title: "Final Review",
+              page: "Review",
+              desc: "Tự đánh giá năng lực DSA.",
+            },
+            {
+              sub: "OOP",
+              title: "Final Review",
+              page: "Review",
+              desc: "Tự đánh giá năng lực OOP.",
+            },
           ],
-          detail: "Tổng kiểm tra toàn bộ lỗ hổng kiến thức.",
         },
       ];
 
-      const fileStore = { dsa: null, oop: null, vtp: null };
-
-      function handleFile(input, key) {
-        const file = input.files[0];
-        if (file) {
-          fileStore[key] = URL.createObjectURL(file);
-          document.getElementById(`label-${key}`).textContent = file.name;
-          document.getElementById(`label-${key}`).className =
-            "text-[11px] text-white font-bold truncate max-w-[100px]";
-          document.getElementById(`view-${key}`).classList.remove("hidden");
-        }
-      }
-
-      function viewFile(key) {
-        if (fileStore[key]) {
-          window.open(fileStore[key], "_blank");
-        }
-      }
-
       const tocContent = {
         dsa: [
-          { title: "Chương 1: Tổng quan về CTDL & GT", page: 3 },
-          { title: "Chương 2: Kỹ thuật tìm kiếm (Searching)", page: 8 },
-          { title: "Chương 3: Kỹ thuật sắp xếp (Sorting)", page: 19 },
-          { title: "Chương 4: Danh sách (List)", page: 84 },
-          { title: "Chương 5: Cây (Tree)", page: 149 },
+          { title: "CHƯƠNG 1: TỔNG QUAN VỀ CTDL & GT", page: 3 },
+          { title: "CHƯƠNG 2: KỸ THUẬT TÌM KIẾM (Searching)", page: 8 },
+          { title: "CHƯƠNG 3: KỸ THUẬT SẮP XẾP (Sorting)", page: 19 },
+          { title: "CHƯƠNG 4: DANH SÁCH (LIST)", page: 84 },
+          { title: "CHƯƠNG 5: CÂY (TREE)", page: 149 },
+          { title: "ÔN TẬP: Tổng kết", page: 224 },
         ],
         oop: [
-          { title: "Chương 1: Mở đầu", page: 7 },
-          { title: "Chương 2: Ngôn ngữ lập trình Java", page: 20 },
-          { title: "Chương 3: Lớp và Đối tượng", page: 48 },
-          { title: "Chương 4: Biến và Các kiểu dữ liệu", page: 57 },
-          { title: "Chương 5: Hành vi của đối tượng", page: 70 },
-          { title: "Chương 6: Sử dụng thư viện Java", page: 85 },
-          { title: "Chương 7: Thừa kế và Đa hình", page: 103 },
-          { title: "Chương 8: Lớp trừu tượng và Interface", page: 124 },
-          { title: "Chương 9: Vòng đời của đối tượng", page: 143 },
-          { title: "Chương 10: Thành viên lớp & thực thể", page: 164 },
-          { title: "Chương 11: Ngoại lệ", page: 174 },
-          { title: "Chương 12: Chuỗi hóa ĐT & Vào ra File", page: 196 },
-          { title: "Chương 13: Lập trình tổng quát & Collection", page: 215 },
+          { title: "Chương 1: Giới thiệu OOP", page: 1 },
+          { title: "Chương 2: Java cơ bản", page: 15 },
+          { title: "Chương 3: Class & Object", page: 48 },
+          { title: "Chương 4: Mảng và Chuỗi", page: 65 },
+          { title: "Chương 5: Gói và Interface", page: 80 },
+          { title: "Chương 7: Thừa kế & Đa hình", page: 103 },
         ],
         vtp: [
           { title: "Chương 1: Số thực và Hàm số thực", page: 3 },
-          { title: "Chương 2: Hàm số liên tục", page: 23 },
-          { title: "Chương 3: Phép tính vi phân", page: 45 },
-          { title: "Chương 4: Ứng dụng của đạo hàm", page: 60 },
+          { title: "Chương 2: Giới hạn & Liên tục", page: 23 },
+          { title: "Chương 3: Vi phân hàm một biến", page: 45 },
           { title: "Chương 5: Phép tính tích phân", page: 84 },
-          { title: "Chương 6: Chuỗi", page: 116 },
+          { title: "Chương 6: Chuỗi số", page: 116 },
         ],
       };
 
@@ -976,9 +990,18 @@
       }
       function saveNotes() {
         localStorage.setItem(
-          "tdcdanh_notes_v3",
+          "tdcdanh_notes_v4",
           document.getElementById("quick-notes").value,
         );
+      }
+
+      function handleFileUpload(input, key) {
+        if (input.files && input.files[0]) {
+          const fileName = input.files[0].name;
+          localStorage.setItem(`file_${key}`, fileName);
+          document.getElementById(`file-label-${key}`).textContent =
+            fileName.substring(0, 10) + (fileName.length > 10 ? ".." : "");
+        }
       }
 
       function updateProgress() {
@@ -989,9 +1012,9 @@
           if (localStorage.getItem(`day_${d.id}_task_1`) === "true") done++;
         });
         const percent = Math.round((done / total) * 100);
-        const circumference = 2 * Math.PI * 80;
+        const circ = 502;
         document.getElementById("progress-circle").style.strokeDashoffset =
-          circumference - (percent / 100) * circumference;
+          circ - (percent / 100) * circ;
         document.getElementById("circle-percent").textContent = `${percent}%`;
         document.getElementById("progress-bar").style.width = `${percent}%`;
         document.getElementById("tasks-count").textContent = `${done}/${total}`;
@@ -1001,156 +1024,108 @@
         event.stopPropagation();
         const checked = event.target.checked;
         localStorage.setItem(`day_${dayId}_task_${idx}`, checked);
-        const taskBlock = document.getElementById(`task-${dayId}-${idx}`);
-        if (taskBlock) {
-          if (checked) taskBlock.classList.add("task-completed");
-          else taskBlock.classList.remove("task-completed");
-        }
+        document
+          .getElementById(`task-${dayId}-${idx}`)
+          .classList.toggle("task-completed", checked);
         updateProgress();
       }
 
       function openToc(key) {
         const list = tocContent[key];
-        const titles = {
-          dsa: "CTDL & Giải thuật",
-          oop: "Lập trình HĐT",
-          vtp: "Vi tích phân A1",
-        };
         const body = document.getElementById("modal-body");
         body.innerHTML = `
                 <div class="mb-10">
-                    <p class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-2">Mục lục chi tiết</p>
-                    <h2 class="text-4xl font-black text-white tracking-tight">${titles[key]}</h2>
+                    <h2 class="text-5xl font-black text-white uppercase tracking-tighter">${key} Syllabus</h2>
+                    <p class="text-slate-500 text-[10px] mt-2 uppercase tracking-[0.4em]">Danh mục chương trình học</p>
                 </div>
                 <div class="space-y-4">
                     ${list
                       .map(
                         (item) => `
-                        <div class="p-6 rounded-3xl bg-white/5 border border-white/5 flex justify-between items-center group hover:bg-white/10 transition-all cursor-pointer shadow-sm">
-                            <span class="text-base font-bold text-slate-200 group-hover:text-white transition-colors">${item.title}</span>
-                            <span class="text-xs font-black text-blue-500 bg-blue-500/10 px-3 py-1 rounded-lg">TRANG ${item.page}</span>
+                        <div class="p-6 rounded-3xl bg-white/5 border border-white/5 flex justify-between items-center hover:bg-white/10 transition-all">
+                            <span class="text-xs font-bold text-slate-200">${item.title}</span>
+                            <span class="text-[9px] font-black text-blue-400 bg-blue-400/10 px-4 py-1.5 rounded-xl">TRANG ${item.page}</span>
                         </div>
                     `,
                       )
                       .join("")}
                 </div>
             `;
-        document.getElementById("modal-overlay").style.display = "flex";
+        document
+          .getElementById("modal-overlay")
+          .classList.remove("hidden")
+          .classList.add("flex");
       }
 
-      function openModal(dayId) {
+      function openTaskDetails(dayId, sessionIdx) {
         const day = studyData.find((d) => d.id === dayId);
+        const session = day.sessions[sessionIdx];
+        const savedNoteKey = `note_${dayId}_${sessionIdx}`;
+        const savedNote = localStorage.getItem(savedNoteKey) || "";
+
         const body = document.getElementById("modal-body");
         body.innerHTML = `
                 <div class="mb-10">
-                    <p class="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-2">${day.day} • ${day.focus}</p>
-                    <h2 class="text-5xl font-black text-white tracking-tighter">${day.date}</h2>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-3 h-3 rounded-full ${session.sub === "VTP" ? "bg-purple-500" : session.sub === "DSA" ? "bg-emerald-500" : "bg-blue-500"}"></span>
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${session.sub} | ${day.date}</span>
+                        </div>
+                        <span class="text-[11px] font-black text-blue-400 bg-blue-400/10 px-4 py-1.5 rounded-xl border border-blue-400/20">TRANG ${session.page}</span>
+                    </div>
+                    <h2 class="text-5xl font-black text-white tracking-tighter mb-4">${session.title}</h2>
+                    <div class="p-6 rounded-3xl bg-white/5 border border-white/5 mb-8">
+                         <h4 class="text-[9px] font-black text-slate-500 uppercase mb-2">Nội dung học tập</h4>
+                         <p class="text-slate-300 text-lg leading-relaxed">${session.desc}</p>
+                    </div>
                 </div>
-                <div class="p-10 rounded-[2.5rem] bg-blue-500/5 border border-blue-500/10 mb-10 shadow-inner">
-                    <p class="text-slate-300 text-lg leading-relaxed italic">"${day.detail}"</p>
-                </div>
-                <div class="space-y-4">
-                    ${day.sessions
-                      .map((s, idx) => {
-                        const isDone =
-                          localStorage.getItem(`day_${day.id}_task_${idx}`) ===
-                          "true";
-                        let bgColor, badgeColor, textColor;
-                        if (s.sub === "DSA") {
-                          bgColor = "bg-emerald-500/10 border-emerald-500/20";
-                          badgeColor = "bg-emerald-500/20 text-emerald-400";
-                          textColor = "text-emerald-100";
-                        } else if (s.sub === "VTP") {
-                          bgColor = "bg-purple-500/10 border-purple-500/20";
-                          badgeColor = "bg-purple-500/20 text-purple-400";
-                          textColor = "text-purple-100";
-                        } else if (s.sub === "OOP") {
-                          bgColor = "bg-blue-500/10 border-blue-500/20";
-                          badgeColor = "bg-blue-500/20 text-blue-400";
-                          textColor = "text-blue-100";
-                        } else {
-                          bgColor = "bg-slate-500/10 border-slate-500/20";
-                          badgeColor = "bg-slate-500/20 text-slate-400";
-                          textColor = "text-slate-100";
-                        }
-                        return `
-                            <div class="p-6 rounded-3xl ${bgColor} border flex justify-between items-center transition-all duration-300 ${isDone ? "task-completed" : ""}">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-2xl flex items-center justify-center ${badgeColor}"><span class="text-[10px] font-black">${s.sub}</span></div>
-                                    <span class="text-lg font-bold ${textColor}">${s.title}</span>
-                                </div>
-                                <span class="text-[10px] font-black uppercase tracking-wider ${isDone ? "text-emerald-400" : "text-slate-500"}">${isDone ? "Hoàn thành" : "Đang chờ"}</span>
-                            </div>
-                        `;
-                      })
-                      .join("")}
+                <div class="space-y-6">
+                    <h4 class="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]">Nhật ký buổi học</h4>
+                    <textarea id="task-detail-note" class="note-area !h-48" placeholder="Ghi lại những gì chưa hiểu hoặc cần lưu ý..." oninput="localStorage.setItem('${savedNoteKey}', this.value)">${savedNote}</textarea>
                 </div>
             `;
-        document.getElementById("modal-overlay").style.display = "flex";
+        document.getElementById("modal-overlay").classList.remove("hidden");
+        document.getElementById("modal-overlay").classList.add("flex");
       }
 
       function closeModal() {
-        document.getElementById("modal-overlay").style.display = "none";
+        document.getElementById("modal-overlay").classList.add("hidden");
+        document.getElementById("modal-overlay").classList.remove("flex");
       }
 
       function render() {
         const grid = document.getElementById("schedule-grid");
+        grid.innerHTML = "";
         studyData.forEach((day) => {
           const card = document.createElement("div");
-          card.className = "liquid-card rounded-[3rem] p-8 cursor-pointer";
-          card.onclick = () => openModal(day.id);
+          card.className = "glass-panel rounded-[3.5rem] p-10 liquid-card";
           card.innerHTML = `
-                    <div class="flex justify-between items-start mb-8 relative z-10">
+                    <div class="flex justify-between items-start mb-10">
                         <div>
-                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">${day.day}</p>
+                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">${day.day} • DAY ${day.id.substring(1)}</p>
                             <h3 class="text-4xl font-black text-white tracking-tighter">${day.date}</h3>
                         </div>
-                        <div class="text-[9px] font-black text-blue-400 uppercase tracking-wider bg-blue-500/10 px-3 py-1.5 rounded-xl border border-blue-500/20">${day.focus}</div>
+                        <span class="text-[9px] font-black text-blue-400 bg-blue-400/10 px-4 py-1.5 rounded-2xl border border-blue-400/10">${day.focus}</span>
                     </div>
-                    <div class="space-y-3 pt-6 border-t border-white/10 relative z-10">
+                    <div class="space-y-4">
                         ${day.sessions
                           .map((s, idx) => {
-                            const isDone =
+                            const done =
                               localStorage.getItem(
                                 `day_${day.id}_task_${idx}`,
                               ) === "true";
-                            let bgColor,
-                              borderColor,
-                              textColor,
-                              badgeColor,
-                              checkboxClass;
-                            if (s.sub === "DSA") {
-                              bgColor = "bg-emerald-500/10";
-                              borderColor = "border-emerald-500/20";
-                              textColor = "text-emerald-100";
-                              badgeColor = "bg-emerald-500/20 text-emerald-400";
-                              checkboxClass = "task-checkbox-dsa";
-                            } else if (s.sub === "VTP") {
-                              bgColor = "bg-purple-500/10";
-                              borderColor = "border-purple-500/20";
-                              textColor = "text-purple-100";
-                              badgeColor = "bg-purple-500/20 text-purple-400";
-                              checkboxClass = "task-checkbox-vtp";
-                            } else if (s.sub === "OOP") {
-                              bgColor = "bg-blue-500/10";
-                              borderColor = "border-blue-500/20";
-                              textColor = "text-blue-100";
-                              badgeColor = "bg-blue-500/20 text-blue-400";
-                              checkboxClass = "task-checkbox-oop";
-                            } else {
-                              bgColor = "bg-slate-500/10";
-                              borderColor = "border-slate-500/20";
-                              textColor = "text-slate-300";
-                              badgeColor = "bg-slate-500/20 text-slate-400";
-                              checkboxClass = "task-checkbox-review";
-                            }
                             return `
-                                <div id="task-${day.id}-${idx}" class="flex items-center justify-between p-3.5 rounded-2xl border ${bgColor} ${borderColor} transition-all duration-300 ${isDone ? "task-completed" : ""}">
-                                    <div class="flex items-center gap-3">
-                                        <span class="text-[9px] font-black px-2.5 py-1 rounded-lg ${badgeColor} uppercase tracking-wider">${s.sub}</span>
-                                        <span class="text-sm font-bold ${textColor}">${s.title}</span>
+                                <div id="task-${day.id}-${idx}" 
+                                     onclick="openTaskDetails('${day.id}', ${idx})"
+                                     class="flex items-center justify-between p-5 rounded-[2rem] bg-black/30 border border-white/5 transition-all hover:bg-white/5 hover:border-white/10 group ${done ? "task-completed" : ""}">
+                                    <div class="flex items-center gap-4">
+                                        <span class="w-2 h-2 rounded-full ${s.sub === "VTP" ? "bg-purple-500" : s.sub === "DSA" ? "bg-emerald-500" : "bg-blue-500"}"></span>
+                                        <div class="flex flex-col">
+                                            <span class="text-xs font-bold text-slate-200">${s.title}</span>
+                                            <span class="text-[9px] text-slate-500 uppercase font-black">Trang ${s.page}</span>
+                                        </div>
                                     </div>
-                                    <input type="checkbox" id="check-${day.id}-${idx}" class="task-checkbox ${checkboxClass}" ${isDone ? "checked" : ""} onclick="toggleTask('${day.id}', ${idx}, event)">
+                                    <input type="checkbox" class="task-checkbox" ${done ? "checked" : ""} onclick="toggleTask('${day.id}', ${idx}, event)">
                                 </div>
                             `;
                           })
@@ -1159,8 +1134,16 @@
                 `;
           grid.appendChild(card);
         });
+
+        ["dsa", "oop", "vtp"].forEach((k) => {
+          const stored = localStorage.getItem(`file_${k}`);
+          if (stored)
+            document.getElementById(`file-label-${k}`).textContent =
+              stored.substring(0, 10) + (stored.length > 10 ? ".." : "");
+        });
+
         document.getElementById("quick-notes").value =
-          localStorage.getItem("tdcdanh_notes_v3") || "";
+          localStorage.getItem("tdcdanh_notes_v4") || "";
         updateProgress();
       }
 
